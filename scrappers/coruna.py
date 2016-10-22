@@ -18,23 +18,21 @@
 #Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 from bs4 import BeautifulSoup
-import re
-import math
-import coruna_animal
-
+import re, math, coruna_animal
 
 try:
     from urllib.request import urlopen
 except ImportError:
     from urllib2 import urlopen
-lang = 'gl'
-base_url = 'http://www.coruna.es/adopcion/'+lang+'/animais'
-page_query = '?argPag='
+
+base_domain = 'http://www.coruna.es'
+page_path = '/adopcion/es/animales'#'/adopcion/gl/animais'
+page_query = '?argIdioma=es&argPag='
 
 def get_specimen_links():
     ret = []
     # 1ª llamada a la pagina
-    main_page_bs = BeautifulSoup(urlopen(base_url).read(), 'html.parser')
+    main_page_bs = BeautifulSoup(urlopen(base_domain+page_path).read(), 'html.parser')
     # obtengo el # de resultados
     _resultados_sitio = re.findall('\d+',str(main_page_bs.find('p', class_='resultadosBot')))[0]
     # obtengo el # de resultados por pagina
@@ -43,14 +41,14 @@ def get_specimen_links():
     _paginas = int(math.ceil(float(_resultados_sitio) / float(_resultados_pagina))+1)
     # ya que he cargado la 1ª pagina saco todos los enlaces
     for specimen in main_page_bs.findAll('li', class_='listadoContenido'):
-        ret.append('http://www.coruna.es'+str(specimen.find('a')['href']))
+        ret.append(base_domain+str(specimen.find('a')['href']))
     # si hay mas de una pagina continuo
     if(_paginas>1):
         for pagina in range(2,_paginas):
-            uri = str(base_url)+str(page_query)+str(pagina)
+            uri = str(base_domain+page_path)+str(page_query)+str(pagina)
             main_page_bs = BeautifulSoup(urlopen(uri).read(), 'html.parser')
             for specimen in main_page_bs.findAll('li', class_='listadoContenido'):
-                ret.append('http://www.coruna.es'+str(specimen.find('a')['href']))
+                ret.append(base_domain+str(specimen.find('a')['href']))
     return ret
 
 
@@ -62,3 +60,6 @@ def get_specimen_dict():
         _iid  = _tmp_specimen['origin_internal_id']
         _tmp[_iid]=_tmp_specimen
     return _tmp
+
+#d=get_specimen_dict()
+#print(d['1453597678571']['name'],d['1453597678571']['description'])
