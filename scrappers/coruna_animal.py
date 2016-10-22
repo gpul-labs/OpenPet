@@ -86,8 +86,8 @@ def get_specimen_data(url):
     datosAnimal = detalleAnimal.find('dl').findAll('dd')
     data['birthdate'] = txt_to_date(datosAnimal[0].text)
     data['entrydate'] = txt_to_date(datosAnimal[2].text)
-    data['summary'] = str(datosAnimal[3].text)
-    data['description'] = str(datosAnimal[4].text)
-    data['race'] = get_race(str(datosAnimal[1].text) + data['summary'],races)
+    data['summary'] = datosAnimal[3].text
+    data['description'] = datosAnimal[4].text
+    data['race'] = get_race(datosAnimal[1].text + data['summary'],races)
     data['origin_internal_id'] = url.split('/')[-1]
     return data
