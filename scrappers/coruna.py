@@ -20,14 +20,15 @@
 from bs4 import BeautifulSoup
 import re
 import math
+import coruna_animal
 
 
 try:
     from urllib.request import urlopen
 except ImportError:
     from urllib2 import urlopen
-
-base_url = 'http://www.coruna.es/adopcion/gl/animais'
+lang = 'gl'
+base_url = 'http://www.coruna.es/adopcion/'+lang+'/animais'
 page_query = '?argPag='
 
 def get_specimen_links():
@@ -42,14 +43,22 @@ def get_specimen_links():
     _paginas = int(math.ceil(float(_resultados_sitio) / float(_resultados_pagina))+1)
     # ya que he cargado la 1ª pagina saco todos los enlaces
     for specimen in main_page_bs.findAll('li', class_='listadoContenido'):
-        ret.append(specimen.find('a')['href'])
+        ret.append('http://www.coruna.es'+str(specimen.find('a')['href']))
     # si hay mas de una pagina continuo
     if(_paginas>1):
         for pagina in range(2,_paginas):
             uri = str(base_url)+str(page_query)+str(pagina)
             main_page_bs = BeautifulSoup(urlopen(uri).read(), 'html.parser')
             for specimen in main_page_bs.findAll('li', class_='listadoContenido'):
-                ret.append(specimen.find('a')['href'])
+                ret.append('http://www.coruna.es'+str(specimen.find('a')['href']))
     return ret
 
-#print ('\n'.join(get_specimen_links()))
+
+def get_specimen_dict():
+    _tmp ={}
+    links = get_specimen_links()
+    for entry in links:
+        _tmp_specimen  = coruna_animal.get_specimen_data(entry)
+        _iid  = _tmp_specimen['origin_internal_id']
+        _tmp[_iid]=_tmp_specimen
+    return _tmp
