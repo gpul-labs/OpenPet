@@ -25,13 +25,12 @@ try:
 except ImportError:
     from urllib2 import urlopen
 
-races = [{'Gato siamés': [('gat', 'siam')],
-		 'Gato persa': [("gat" ,'pers')],
-		 'Pastor alemán': [('pastor', 'aleman')],
-		 'Palleiro': [('palleir',)],
-		 'Mestizo': [('mesti',), ('cruce',)]},
-		 {'Gato': [('gat',)],
-		 'Perro': [('perr')]}]
+races = [{'Siam%es': [('gat', 'siam')],
+          'Persa': [('gat' ,'pers')],
+          'Pastor alem%an': [('pastor', 'aleman')],
+          'Can de palleiro': [('palleir',)]},
+         {'Gato gen%rico': [('gat',)]},
+         {'Perro gen%rico': [('')]}]
 
 def get_race(txt, races):
 	query = txt.lower()

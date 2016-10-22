@@ -99,7 +99,7 @@ CREATE TABLE `specimens` (
   `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `description` longtext COLLATE utf8_unicode_ci,
   `summary` longtext COLLATE utf8_unicode_ci,
-  `sex` int(11) NOT NULL,
+  `sex` int(11) DEFAULT NULL,
   `birthdate` date DEFAULT NULL,
   `entrydate` date DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
