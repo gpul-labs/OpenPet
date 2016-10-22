@@ -2,6 +2,7 @@
 #encoding: utf-8
 
 #Copyright (C) 2016 José Millán Soto <fid@gpul.org>
+#Copyright (C) 2016 Miguel López Cuesta <lopezcuestam@gmail.com>
 #
 #This program is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -24,6 +25,32 @@ try:
 except ImportError:
     from urllib2 import urlopen
 
+races = [{'Gato siamés': [('gat', 'siam')],
+		 'Gato persa': [("gat" ,'pers')],
+		 'Pastor alemán': [('pastor', 'aleman')],
+		 'Palleiro': [('palleir',)],
+		 'Mestizo': [('mesti',), ('cruce',)]},
+		 {'Gato': [('gat',)],
+		 'Perro': [('perr')]}]
+
+def get_race(txt, races):
+	query = txt.lower()
+	for h in races:
+		for i in h:
+			for j in h[i]:
+				is_races = True
+			
+				for k in j:
+					if k in query:
+						is_races = True
+					else:
+						is_races = False
+				
+				
+				if is_races:
+					return i
+	return None
+	
 def txt_to_date(t):
     meses = {'enero': 1,
              'febrero': 2,
@@ -61,5 +88,6 @@ def get_specimen_data(url):
     data['entrydate'] = txt_to_date(datosAnimal[2].text)
     data['summary'] = str(datosAnimal[3].text)
     data['description'] = str(datosAnimal[4].text)
+    data['race'] = get_race(str(datosAnimal[1].text) + data['summary'],races)
     data['origin_internal_id'] = url.split('/')[-1]
     return data
