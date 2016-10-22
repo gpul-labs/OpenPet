@@ -29,5 +29,10 @@ main_page_contents = urlopen(base_url).read()
 
 main_page_bs = BeautifulSoup(main_page_contents, 'html.parser')
 
-for specimen in main_page_bs.findAll('li', class_='listadoContenido'):
-    print (specimen.find('a')['href'])
+def get_specimen_links(soup):
+    ret = []
+    for specimen in soup.findAll('li', class_='listadoContenido'):
+        ret.append(specimen.find('a')['href'])
+    return ret
+
+print ('\n'.join(get_specimen_links(main_page_bs)))
