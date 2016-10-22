@@ -56,10 +56,10 @@ def get_specimen_data(url):
     detalleAnimal = soup.find('div', id='detalleAnimal')
     data['name'] = detalleAnimal.find('h2').text.strip()
     data['image'] = base_img_domain + detalleAnimal.find('img')['src']
-    datosAnimal = soup.find('dl', class_='datosAnimal').findAll('dd')
+    datosAnimal = detalleAnimal.find('dl').findAll('dd')
     data['birthdate'] = txt_to_date(datosAnimal[0].text)
     data['entrydate'] = txt_to_date(datosAnimal[2].text)
-    data['summary'] = str(datosAnimal[3].find('p').text)
-    data['description'] = str(datosAnimal[4].find('p').text)
+    data['summary'] = str(datosAnimal[3].text)
+    data['description'] = str(datosAnimal[4].text)
     data['origin_internal_id'] = url.split('/')[-1]
     return data
