@@ -1,32 +1,24 @@
 from twitter import *
 import time
+import json
 
-consumerKey='km5gqo5PFFDYjhNJ7leMvR4Fb'
-consumerToken='aSjiKbNjl7KyGQxGZ6NV7dHquFFbhgCE9bigfsGfbTjHwoDLJl'
-accessToken='17336518-bkJI2BFwWMbna40XXiUgt82IqLIRixMnS7ESybo2D'
-accessTokenSecret='kg7cDSu3o7XSXzkQhmTocZze3mlYrWAOwHOryHdjj2rjk'
 
-'''
-consumerKey='rC8LlORwWdGgnRfjf8mEm9XfH'
-consumerToken='1MwVY67kbx1AyCQMNR3l4mGtDeY9dKkQGfBYbGiDBeFOlxVlHy'
-accessToken='790113238671364096-ZCPsH2Am1WQjJUvnPXwBCD564skdsyn'
-accessTokenSecret='tkRJzoxQs1Nyuvd5aYXPl1dyLvAD5bJQgbqkxq88HaKZB'
-'''
 #t = Twitter(auth=OAuth(accessToken, accessTokenSecret, consumerKey, consumerToken))
 #t.statuses.update(status="OpenPet")
 
+def load_config():
+    with open('./config.json') as data_file:
+        data = json.load(data_file)
+        return {'days':data['delayDays'], 'hours':data['delayHours'], 'minutes':data['delayMinutes'], 'consumerKey':data['consumerKey'], 'consumerToken':data['consumerToken'], 'accessToken':data['accessToken'], 'accessTokenSecret':data['accessTokenSecret']}
 
-def tweet_start(days=0, hours=0, minutes=5):
-    t = Twitter(auth=OAuth(accessToken, accessTokenSecret, consumerKey, consumerToken))
+
+def tweet_start():
+    cfg = load_config()
+    t = Twitter(auth=OAuth(cfg['accessToken'], cfg['accessTokenSecret'], cfg['consumerKey'], cfg['consumerToken']))
     # Calculate the tweet interval in minutes
-    tweet_interval = (days*24*60 + hours*60 + minutes)*60
-    print(tweet_interval)
-    while True:
-        print('loop')
-        # Update the autotweeting parameters
-        t.statuses.update(status="Barrrfff")
-        time.sleep(tweet_interval)
+    tweet_interval = (cfg['days']*24*60 + cfg['hours']*60 + cfg['minutes'])*60
+    #while True:
+    t.statuses.update(status="Barrrfff")
+    #time.sleep(tweet_interval)
 
-
-
-tweet_start(0,0,1)
+tweet_start()
