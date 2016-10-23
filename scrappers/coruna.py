@@ -25,6 +25,9 @@ try:
 except ImportError:
     from urllib2 import urlopen
 
+from coruna_todb import get_data, add_to_db
+from db import get_connection
+
 base_domain = 'http://www.coruna.es'
 page_path = '/adopcion/es/animales'#'/adopcion/gl/animais'
 page_query = '?argIdioma=es&argPag='
@@ -61,5 +64,14 @@ def get_specimen_dict():
         _tmp[_iid]=_tmp_specimen
     return _tmp
 
-#d=get_specimen_dict()
-#print(d['1453597678571']['name'],d['1453597678571']['description'])
+connection = get_connection()
+
+parameters = get_data(connection)
+
+cursor = connection.cursor()
+for animal in get_specimen_dict().values():
+    add_to_db(cursor, parameters, animal)
+
+cursor.close()
+connection.commit()
+connection.close()
