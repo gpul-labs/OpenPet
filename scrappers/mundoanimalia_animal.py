@@ -24,6 +24,8 @@ try:
 except ImportError:
     from urllib2 import urlopen
 from utils import find_disc_value, txt_to_date, clTxt
+from datetime import date
+import re
 
 races = [{'Siam%es': [('gat', 'siam')],
           'Persa': [('gat' ,'pers')],
@@ -40,6 +42,13 @@ sexes = [{'male': [('gato ',), ('perro ',), ('macho',), ('cachorro',)],
           'female': [('gata ',), ('perra ',), ('hembra',), ('cachorra',)]}]
 
 image_url_base = 'http://www.mundoanimalia.com/'
+
+def get_birthdate(txt):
+    k = re.findall('\d+ añ', txt)
+    if k:
+        age = int(k[0].split(' ')[0])
+        return date(date.today().year-age, 1, 1)
+    return None
 
 def get_specimen_data(soup, url):
     data = {}
@@ -67,6 +76,7 @@ def get_specimen_data(soup, url):
         data['image'] = image_url_base+data['image']
 
     data['description'] = clTxt(soup.find('div', class_='descipcion_criador_ficha').text)
+    data['birthdate'] = get_birthdate(data['summary'])
     
     data['race'] = find_disc_value(species+data['summary'],races)
     data['sex'] = find_disc_value(data['summary'] + data['description'],sexes)
