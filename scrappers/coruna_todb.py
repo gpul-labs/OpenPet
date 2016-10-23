@@ -51,6 +51,11 @@ def add_to_db(cursor, params, specimen):
             fields.append('race_id')
             values.append('(SELECT id FROM races WHERE name LIKE %s)')
             parameters.append(specimen[i])
+        elif i == 'sex':
+            if specimen[i] and specimen[i][0] in ('m', 'f'):
+                fields.append(i)
+                values.append('%s')
+                parameters.append(specimen[i][0])
         else:
             fields.append(i)
             values.append('%s')

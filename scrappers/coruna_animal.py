@@ -28,28 +28,30 @@ except ImportError:
 races = [{'Siam%es': [('gat', 'siam')],
           'Persa': [('gat' ,'pers')],
           'Pastor alem%an': [('pastor', 'aleman')],
+          'Pastor belga': [('pastor', 'belga')],
+          'Pit bull': [('pit', 'bul')],
+          'American Staffordshire terrier': [('amstaff',), ('american','ford')],
           'Can de palleiro': [('palleir',)]},
+         {'Pastor': [('pastor',)]},
          {'Gato gen%rico': [('gat',)]},
-         {'Perro gen%rico': [('')]}]
+         {'Perro gen%rico': [('',)]}]
 
-def get_race(txt, races):
-	query = txt.lower()
-	for h in races:
-		for i in h:
-			for j in h[i]:
-				is_races = True
-			
-				for k in j:
-					if k in query:
-						is_races = True
-					else:
-						is_races = False
-				
-				
-				if is_races:
-					return i
-	return None
-	
+sexes = [{'male': [('gato ',), ('perro ',), ('macho',), ('cachorro',)],
+          'female': [('gata ',), ('perra ',), ('hembra',), ('cachorra',)]}]
+
+def find_disc_value(txt, options):
+    query = txt.lower()
+    for h in options:
+        for i in h:
+            for j in h[i]:
+                found_option = True
+                for k in j:
+                    if not k in query:
+                        found_option = False
+                if found_option:
+                    return i
+    return None
+
 def txt_to_date(t):
     meses = {'enero': 1,
              'febrero': 2,
@@ -87,6 +89,7 @@ def get_specimen_data(url):
     data['entrydate'] = txt_to_date(datosAnimal[2].text)
     data['summary'] = datosAnimal[3].text
     data['description'] = datosAnimal[4].text
-    data['race'] = get_race(datosAnimal[1].text + data['summary'],races)
+    data['race'] = find_disc_value(datosAnimal[1].text + data['summary'],races)
+    data['sex'] = find_disc_value(datosAnimal[1].text + data['summary'] + data['description'],sexes)
     data['origin_internal_id'] = url.split('/')[-1]
     return data
