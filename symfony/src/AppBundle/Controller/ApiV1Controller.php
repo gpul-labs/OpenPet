@@ -55,6 +55,7 @@ class ApiV1Controller extends Controller
             'name' => $specimen->getName(),
             'description' => $specimen->getDescription(),
             'summary' => $specimen->getSummary(),
+            'image' => $specimen->getImage(),
             'sex' => $specimen->getSex(),
             'birthdate' => $specimen->getBirthdate()->format('Y-m-d'),
             'entrydate' => $specimen->getEntrydate()->format('Y-m-d'),

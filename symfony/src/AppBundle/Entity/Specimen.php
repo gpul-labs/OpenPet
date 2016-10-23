@@ -46,7 +46,7 @@ class Specimen
     private $summary;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=1, nullable=true)
      */
     private $sex;
 
@@ -224,7 +224,7 @@ class Specimen
     /**
      * Set sex
      *
-     * @param integer $sex
+     * @param string $sex
      *
      * @return Specimen
      */
@@ -238,7 +238,7 @@ class Specimen
     /**
      * Get sex
      *
-     * @return integer
+     * @return string
      */
     public function getSex()
     {

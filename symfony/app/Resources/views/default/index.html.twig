@@ -1,553 +1,86 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<div class="jumbotron">
+    <a class="btn btn-primary btn-lg pull-right" href="{{ path('api_description') }}" role="button">Public API</a>
+    <h1>openPet</h1>
+    <p>
+        A public repository for pet adoption.
+        Currently with 
+        {{ specimenTotal }}
+        pets and growing. 
+    </p>
+</div>
 
-<div class="row">
-    <div class="col-md-10">
-        <h1>API Documentation</h1>
+<h2>Lastest Pets</h2>
 
-        <h2 id="specimens">Specimens</h2>
-
-        <table class="table table-striped">
-            {# {{{ #}
-            <thead>
-                <tr>
-                    <th>
-                        METHOD
-                    </th>
-                    <th>
-                        URL
-                    </th>
-                    <th>
-                        DESCRIPTION
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        /api/v1/specimens
-                        <a href="{{ path('api_v1_search_specimens') }}" target="_blank">
-                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                        </a>
-                    </td>
-                    <td>
-                        Returns a collection of Specimens
-                        <br>
-                        <br>
-                        <table class="table table-bordered">
-                            {# {{{ #}
-                            <thead>
-                                <tr class="info">
-                                    <th>
-                                        FILTER
-                                    </th>
-                                    <th>
-                                        INFORMATION
-                                    </th>
-                                    <th>
-                                        EXAMPLES
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    race
-                                </td>
-                                <td>
-                                    dataType: int
-                                </td>
-                                <td>
-                                    /api/v1/specimens?race=1
-                                    <a href="{{ path('api_v1_search_specimens', {'race': 1}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    specie
-                                </td>
-                                <td>
-                                    dataType: int
-                                </td>
-                                <td>
-                                    /api/v1/specimens?specie=1
-                                    <a href="{{ path('api_v1_search_specimens', {'specie': 1}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    location
-                                </td>
-                                <td>
-                                    dataType: int
-                                </td>
-                                <td>
-                                    /api/v1/specimens?location=1
-                                    <a href="{{ path('api_v1_search_specimens', {'location': 1}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                            {# }}} #}
-                        </table>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        /api/v1/specimens/{id}
-                    </td>
-                    <td>
-                        Returns a specimen
-                        <br>
-                        <br>
-                        <table class="table table-bordered">
-                            {# {{{ #}
-                            <thead>
-                                <tr class="info">
-                                    <th>
-                                        REQUIREMENTS
-                                    </th>
-                                    <th>
-                                        INFORMATION
-                                    </th>
-                                    <th>
-                                        FORMAT
-                                    </th>
-                                    <th>
-                                        EXAMPLES
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    id
-                                </td>
-                                <td>
-                                    Specimen unique id
-                                </td>
-                                <td>
-                                    \d+
-                                </td>
-                                <td>
-                                    /api/v1/specimens/1
-                                    <a href="{{ path('api_v1_get_specimen', {'id': 1}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                            {# }}} #}
-                        </table>
-                    </td>
-                </tr>
-
-            </tbody>
-            {# }}} #}
-        </table>
-
-        <h2 id="origins">Origins</h2>
-
-        <table class="table table-striped">
-            {# {{{ #}
-            <thead>
-                <tr>
-                    <th>
-                        METHOD
-                    </th>
-                    <th>
-                        URL
-                    </th>
-                    <th>
-                        DESCRIPTION
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        /api/v1/origins
-                        <a href="{{ path('api_v1_search_origins') }}" target="_blank">
-                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                        </a>
-                    </td>
-                    <td>
-                        Returns a collection of Origins
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        /api/v1/origins/{id}
-                    </td>
-                    <td>
-                        Returns a origin
-                        <br>
-                        <br>
-                        <table class="table table-bordered">
-                            {# {{{ #}
-                            <thead>
-                                <tr class="info">
-                                    <th>
-                                        REQUIREMENTS
-                                    </th>
-                                    <th>
-                                        INFORMATION
-                                    </th>
-                                    <th>
-                                        FORMAT
-                                    </th>
-                                    <th>
-                                        EXAMPLES
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    id
-                                </td>
-                                <td>
-                                    Origin unique id
-                                </td>
-                                <td>
-                                    \d+
-                                </td>
-                                <td>
-                                    /api/v1/origins/1
-                                    <a href="{{ path('api_v1_get_origin', {'id': 1}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                            {# }}} #}
-                        </table>
-                    </td>
-                </tr>
-
-            </tbody>
-            {# }}} #}
-        </table>
-
-        <h2 id="locations">Locations</h2>
-
-        <table class="table table-striped">
-            {# {{{ #}
-            <thead>
-                <tr>
-                    <th>
-                        METHOD
-                    </th>
-                    <th>
-                        URL
-                    </th>
-                    <th>
-                        DESCRIPTION
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        /api/v1/locations
-                        <a href="{{ path('api_v1_search_locations') }}" target="_blank">
-                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                        </a>
-                    </td>
-                    <td>
-                        Returns a collection of Locations
-                        <br>
-                        <br>
-                        <table class="table table-bordered">
-                            {# {{{ #}
-                            <thead>
-                                <tr class="info">
-                                    <th>
-                                        FILTER
-                                    </th>
-                                    <th>
-                                        INFORMATION
-                                    </th>
-                                    <th>
-                                        EXAMPLES
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    province
-                                </td>
-                                <td>
-                                    dataType: int
-                                </td>
-                                <td>
-                                    /api/v1/locations?province=15
-                                    <a href="{{ path('api_v1_search_locations', {'province': 15}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                            {# }}} #}
-                        </table>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        /api/v1/locations/{id}
-                    </td>
-                    <td>
-                        Returns a location
-                        <br>
-                        <br>
-                        <table class="table table-bordered">
-                            {# {{{ #}
-                            <thead>
-                                <tr class="info">
-                                    <th>
-                                        REQUIREMENTS
-                                    </th>
-                                    <th>
-                                        INFORMATION
-                                    </th>
-                                    <th>
-                                        FORMAT
-                                    </th>
-                                    <th>
-                                        EXAMPLES
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    id
-                                </td>
-                                <td>
-                                    Location unique id
-                                </td>
-                                <td>
-                                    \d+
-                                </td>
-                                <td>
-                                    /api/v1/location/1
-                                    <a href="{{ path('api_v1_get_location', {'id': 1}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                            {# }}} #}
-                        </table>
-                    </td>
-                </tr>
-
-            </tbody>
-            {# }}} #}
-        </table>
-
-        <h2 id="provinces">Provinces</h2>
-
-        <table class="table table-striped">
-            {# {{{ #}
-            <thead>
-                <tr>
-                    <th>
-                        METHOD
-                    </th>
-                    <th>
-                        URL
-                    </th>
-                    <th>
-                        DESCRIPTION
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        /api/v1/provinces
-                        <a href="{{ path('api_v1_search_provinces') }}" target="_blank">
-                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                        </a>
-                    </td>
-                    <td>
-                        Returns a collection of Provinces
-                    </td>
-                </tr>
-
-            </tbody>
-            {# }}} #}
-        </table>
-
-        <h2 id="species">Species</h2>
-
-        <table class="table table-striped">
-            {# {{{ #}
-            <thead>
-                <tr>
-                    <th>
-                        METHOD
-                    </th>
-                    <th>
-                        URL
-                    </th>
-                    <th>
-                        DESCRIPTION
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        /api/v1/species
-                        <a href="{{ path('api_v1_search_species') }}" target="_blank">
-                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                        </a>
-                    </td>
-                    <td>
-                        Returns a collection of Species
-                    </td>
-                </tr>
-
-            </tbody>
-            {# }}} #}
-        </table>
-
-        <h2 id="races">Races</h2>
-
-        <table class="table table-striped">
-            {# {{{ #}
-            <thead>
-                <tr>
-                    <th>
-                        METHOD
-                    </th>
-                    <th>
-                        URL
-                    </th>
-                    <th>
-                        DESCRIPTION
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        /api/v1/races
-                        <a href="{{ path('api_v1_search_races') }}" target="_blank">
-                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                        </a>
-                    </td>
-                    <td>
-                        Returns a collection of Races
-                        <br>
-                        <br>
-                        <table class="table table-bordered">
-                            {# {{{ #}
-                            <thead>
-                                <tr class="info">
-                                    <th>
-                                        FILTER
-                                    </th>
-                                    <th>
-                                        INFORMATION
-                                    </th>
-                                    <th>
-                                        EXAMPLES
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    specie
-                                </td>
-                                <td>
-                                    dataType: int
-                                </td>
-                                <td>
-                                    /api/v1/races?specie=1
-                                    <a href="{{ path('api_v1_search_races', {'specie': 1}) }}" target="_blank">
-                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                            {# }}} #}
-                        </table>
-                    </td>
-                </tr>
-
-            </tbody>
-            {# }}} #}
-        </table>
-
-    </div>
-    <div class="col-md-2">
-        <br>
-        <br>
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="#specimens">Specimens</a>
-            </li>
-            <li class="list-group-item">
-                <a href="#origins">Origins</a>
-            </li>
-            <li class="list-group-item">
-                <a href="#locations">Locations</a>
-            </li>
-            <li class="list-group-item">
-                <a href="#provinces">Provinces</a>
-            </li>
-            <li class="list-group-item">
-                <a href="#species">Species</a>
-            </li>
-        </ul>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="location">Locations</label>
+                <select class="form-control" id="location" name="location">
+                      <option value="0">All</option>
+                      {% for location in locations %}
+                      <option value="{{ location.id }}" {% if app.request.get('location') == location.id %}selected{% endif %}>{{ location.name }}</option>
+                      {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                &nbsp; &nbsp;
+                <label for="race">Race</label>
+                <select class="form-control" id="race" name="race">
+                      <option value="0">All</option>
+                      {% for race in races %}
+                      <option value="{{ race.id }}" {% if app.request.get('race') == race.id %}selected{% endif %}>{{ race.name }}</option>
+                      {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                &nbsp; &nbsp;
+                <label for="sex">Genre</label>
+                <select class="form-control" id="sex" name="sex">
+                      <option value="0">All</option>
+                      <option value="M" {% if app.request.get('sex') == 'M' %}selected{% endif %}>Male</option>
+                      <option value="F" {% if app.request.get('sex') == 'F' %}selected{% endif %}>Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                &nbsp; &nbsp;
+                <label for="age">Age between</label>
+                <input type="text" class="form-control" id="age" size="3" name="from_age" {% if app.request.get('from_age') %}value="{{ app.request.get('from_age') }}"{% endif %}>
+                and
+                <input type="text" class="form-control" id="age2" size="3" name="to_age" {% if app.request.get('to_age') %}value="{{ app.request.get('to_age') }}"{% endif %}>
+            </div>
+            &nbsp; &nbsp;
+            <button type="submit" class="btn btn-default">Search</button>
+        </form>
     </div>
 </div>
+
+
+<div class="row">
+
+    {% for specimen in specimens %}
+    <div class="col-sm-4 col-md-3" >
+        <div class="thumbnail" style="height:500px;overflow:hidden">
+            <img src="{{ specimen.image }}">
+            <div class="caption">
+                <a href="#" class="btn btn-primary pull-right" role="button">Details</a> 
+                <h3>
+                    {{ specimen.name }}
+                </h3>
+                <p>
+                    <b>{{ specimen.summary }}</b>
+                    <br>
+                    {{ specimen.description }}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
 
 {% endblock %}
