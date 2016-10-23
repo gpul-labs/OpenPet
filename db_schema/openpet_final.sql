@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.52-0ubuntu0.14.04.1)
 # Database: openpet
-# Generation Time: 2016-10-22 16:02:43 +0200
+# Generation Time: 2016-10-23 12:11:31 +0200
 # ************************************************************
 
 
@@ -33,7 +33,10 @@ CREATE TABLE `locations` (
   `latitude` decimal(7,4) DEFAULT NULL,
   `longitude` decimal(7,4) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `province_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_17E64ABAE946114A` (`province_id`),
+  CONSTRAINT `FK_17E64ABAE946114A` FOREIGN KEY (`province_id`) REFERENCES `provinces` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -47,6 +50,20 @@ CREATE TABLE `origins` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+
+# Dump of table provinces
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `provinces`;
+
+CREATE TABLE `provinces` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -99,7 +116,7 @@ CREATE TABLE `specimens` (
   `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `description` longtext COLLATE utf8_unicode_ci,
   `summary` longtext COLLATE utf8_unicode_ci,
-  `sex` int(11) DEFAULT NULL,
+  `sex` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `birthdate` date DEFAULT NULL,
   `entrydate` date DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
@@ -107,9 +124,9 @@ CREATE TABLE `specimens` (
   KEY `IDX_F599311E56A273CC` (`origin_id`),
   KEY `IDX_F599311E64D218E` (`location_id`),
   KEY `IDX_F599311E6E59D40D` (`race_id`),
-  CONSTRAINT `FK_F599311E6E59D40D` FOREIGN KEY (`race_id`) REFERENCES `races` (`id`),
   CONSTRAINT `FK_F599311E56A273CC` FOREIGN KEY (`origin_id`) REFERENCES `origins` (`id`),
-  CONSTRAINT `FK_F599311E64D218E` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`)
+  CONSTRAINT `FK_F599311E64D218E` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`),
+  CONSTRAINT `FK_F599311E6E59D40D` FOREIGN KEY (`race_id`) REFERENCES `races` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
