@@ -13,9 +13,13 @@ class SpecimenRepository extends EntityRepository
 
         $qb = $this->getEntityManager()->createQueryBuilder();
 
-        $qb->select('s')
+        $qb->select('s, o, l, p, r, sp')
             ->from('AppBundle:Specimen', 's')
             ->join('s.race', 'r')
+            ->join('r.specie', 'sp')
+            ->join('s.origin', 'o')
+            ->join('s.location', 'l')
+            ->join('l.province', 'p')
             ->where('s.deletedAt is null')
             ->orderBy('s.id', 'DESC')
             ->setMaxResults($limit)

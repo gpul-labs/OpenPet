@@ -66,7 +66,7 @@
         <div class="thumbnail" style="height:500px;overflow:hidden">
             <img src="{{ specimen.image }}">
             <div class="caption">
-                <a href="#" class="btn btn-primary pull-right" role="button">Details</a> 
+                <a href="#" class="btn btn-primary pull-right" role="button" data-toggle="modal" data-target="#specimen-{{ specimen.id }}">Details</a> 
                 <h3>
                     {{ specimen.name }}
                 </h3>
@@ -78,6 +78,63 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="specimen-{{ specimen.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        {{ specimen.name }}
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="img-thumbnail" src="{{ specimen.image }}">
+                        </div>
+                        <div class="col-md-8">
+                            <b>{{ specimen.summary }}</b>
+                            <br>
+                            {{ specimen.description }}
+                            <br>
+                            <br>
+
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <dl class="dl-horizontal">
+                                        <dt>Genre:</dt>
+                                        <dd>{{ specimen.sex }}</dd>
+                                        <dt>Birth:</dt>
+                                        <dd>{{ specimen.birthdate|date('d/m/Y') }}</dd>
+                                        <dt>Entry date:</dt>
+                                        <dd>{{ specimen.entrydate|date('d/m/Y') }}</dd>
+                                        <dt>Race:</dt>
+                                        <dd>{{ specimen.race.name }}</dd>
+                                        <dt></dt>
+                                        <dd>{{ specimen.race.specie.name }}</dd>
+                                        <dt>Data source:</dt>
+                                        <dd>{{ specimen.origin.name }}</dd>
+                                        <dt></dt>
+                                        <dd><a href="{{ specimen.origin.url }}">{{ specimen.origin.url }}</a></dd>
+                                        <dt>Location:</dt>
+                                        <dd>{{ specimen.location.name }}</dd>
+                                        <dt></dt>
+                                        <dd>{{ specimen.location.province.name }}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% endfor %}
 
 </div>
