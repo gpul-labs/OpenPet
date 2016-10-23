@@ -19,11 +19,11 @@
 #Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 from bs4 import BeautifulSoup
-from datetime import date
 try:
     from urllib.request import urlopen
 except ImportError:
     from urllib2 import urlopen
+from utils import find_disc_value, txt_to_date
 
 races = [{'Siam%es': [('gat', 'siam')],
           'Persa': [('gat' ,'pers')],
@@ -38,42 +38,6 @@ races = [{'Siam%es': [('gat', 'siam')],
 
 sexes = [{'male': [('gato ',), ('perro ',), ('macho',), ('cachorro',)],
           'female': [('gata ',), ('perra ',), ('hembra',), ('cachorra',)]}]
-
-def find_disc_value(txt, options):
-    query = txt.lower()
-    for h in options:
-        for i in h:
-            for j in h[i]:
-                found_option = True
-                for k in j:
-                    if not k in query:
-                        found_option = False
-                if found_option:
-                    return i
-    return None
-
-def txt_to_date(t):
-    meses = {'enero': 1,
-             'febrero': 2,
-             'marzo': 3,
-             'abril': 4,
-             'mayo': 5,
-             'junio': 6,
-             'julio': 7,
-             'agosto': 8,
-             'septiembre': 9,
-             'octubre': 10,
-             'noviembre': 11,
-             'diciembre': 12}
-    t = t.split(' ')
-    if len(t) != 5:
-        return None
-    try:
-        return date(int(t[4]), meses[t[2]], int(t[0]))
-    except ValueError:
-        return None
-    except IndexError:
-        return None
 
 base_img_domain = 'http://www.coruna.es/'
 
