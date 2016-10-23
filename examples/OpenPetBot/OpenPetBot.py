@@ -28,9 +28,7 @@ def tweet_start():
     url = cfg['apiUrl']+'/'+str(randId)
     response = requests.get(url).json()
     while True:
-        t.statuses.update("Saluda a "+response['name']+" este "+response['specie']['name']+' busca un hogar, si estas interesado ponte en contacto con '+response['location']['name']+"("+response['location']['url']+")."+response['image'])
+        t.statuses.update(status="Saluda a "+response['name']+" este "+response['specie']['name']+' busca un hogar, si estas interesado ponte en contacto con '+response['location']['name']+"("+response['location']['url']+")."+response['image'])
         time.sleep(tweet_interval)
 
 tweet_start()
-
-

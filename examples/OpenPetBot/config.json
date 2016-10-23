@@ -1,6 +1,11 @@
 {
+	"delayDays": "0",
+	"delayHours": "0",
+	"delayMinutes": "10",
 	"consumerKey": "EcigjT9Kjf4GwQdvnCV5Rx2zk",
 	"consumerToken": "I5ntzftMqnAiSOeDDNFJBRkAveyJfPFNdBxx58fWUgngyLFBsK",
 	"accessToken": "790113238671364096-ZCPsH2Am1WQjJUvnPXwBCD564skdsyn",
-	"accessTokenSecret": ""
+	"accessTokenSecret": "",
+	"apiUrl": "http://52.86.85.237:8888/api/v1/specimens",
+	"recordsPerRequest": "10"
 }
