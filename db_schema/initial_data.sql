@@ -1,4 +1,4 @@
-INSERT INTO provinces (name) VALUES ('A Coruña');
+INSERT INTO provinces (id, name) VALUES (15, 'A Coruña');
 
 INSERT INTO locations (name, url, phone, latitude, longitude, province_id) VALUES
     ('Perrera Municipal de Bens',
@@ -8,6 +8,7 @@ INSERT INTO locations (name, url, phone, latitude, longitude, province_id) VALUE
       (SELECT id FROM provinces WHERE name = 'A Coruña'));
 
 INSERT INTO origins (name, url) VALUES ('coruna.es','http://www.coruna.es/adopcion');
+INSERT INTO origins (name, url) VALUES ('mundoanimalia.com','http://www.mundoanimalia.com/');
 
 INSERT INTO `species` VALUES (1,'Perro',NULL),(2,'Gato',NULL);
 
