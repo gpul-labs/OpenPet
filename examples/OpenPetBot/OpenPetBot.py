@@ -28,7 +28,7 @@ def tweet_start():
     # obtengo imagen
     imagedata = requests.get(response['image'], stream=True).content
     #compongo texto
-    msg = str("Saluda a "+response['name']+" este "+response['specie']['name']+' busca un hogar, si estas interesado ponte en contacto con '+response['location']['name']+".")
+    msg = str("Saluda a "+response['name']+" este "+response['specie']['name']+' busca un hogar, conocelo en '+response['location']['name']+" "+response['location']['url']+".")
     #subo la imagen
     id_img = t_up.media.upload(media=imagedata)["media_id_string"]
 
