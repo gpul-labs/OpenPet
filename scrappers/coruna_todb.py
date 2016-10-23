@@ -55,7 +55,7 @@ def add_to_db(cursor, params, specimen):
             if specimen[i] and specimen[i][0] in ('m', 'f'):
                 fields.append(i)
                 values.append('%s')
-                parameters.append(specimen[i][0])
+                parameters.append(specimen[i][0].upper())
         else:
             fields.append(i)
             values.append('%s')

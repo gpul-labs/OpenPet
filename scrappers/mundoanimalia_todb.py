@@ -91,7 +91,7 @@ def add_to_db(cursor, params, specimen, locations):
             if specimen[i] and specimen[i][0] in ('m', 'f'):
                 fields.append(i)
                 values.append('%s')
-                parameters.append(specimen[i][0])
+                parameters.append(specimen[i][0].upper())
         elif i == 'location_url':
             fields.append('location_id')
             values.append('%s')
