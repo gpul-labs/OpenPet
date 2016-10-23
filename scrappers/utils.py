@@ -55,3 +55,8 @@ def txt_to_date(t):
         return None
     except IndexError:
         return None
+
+def clTxt(txt):
+    txt = txt.replace('\r','').replace('\n', ' ')
+    while '  ' in txt: txt = txt.replace('  ',' ')
+    return txt.strip()

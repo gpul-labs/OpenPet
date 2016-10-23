@@ -23,12 +23,8 @@ try:
     from urllib.request import urlopen
 except ImportError:
     from urllib2 import urlopen
-from utils import find_disc_value, txt_to_date
+from utils import find_disc_value, txt_to_date, clTxt
 
-def clTxt(txt):
-    txt = txt.replace('\r','').replace('\n', ' ')
-    while '  ' in txt: txt = txt.replace('  ',' ')
-    return txt.strip()
 
 races = [{'Siam%es': [('gat', 'siam')],
           'Persa': [('gat' ,'pers')],
