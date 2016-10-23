@@ -24,6 +24,7 @@ try:
 except ImportError:
     from urllib2 import urlopen
 from mundoanimalia_animal import get_specimen_data
+from mundoanimalia_location import add_location_data
 
 base_domain = 'http://www.mundoanimalia.com'
 page_path = '/animales_en_adopcion/protectora/pagina/%s' #%s is the page number
@@ -42,15 +43,17 @@ def get_specimen_links(page_num = 1, cont_pages = 10):
 
     return ret
 
-def get_specimen_dict(page_num = 1, cont_pages = 10):
+def get_mundoanimalia_data(page_num = 1, cont_pages = 10):
     links = get_specimen_links(page_num, cont_pages)
     res = {}
+    locations = {}
     for i in links:
         page_contents = urlopen(i).read()
         soup = BeautifulSoup(page_contents, 'html.parser')
         data = get_specimen_data(soup, i)
+        data['location_url'] = add_location_data(soup, i, locations)
         res[data['origin_internal_id']] = data
-    return res
+    return (res, locations)
 
 from db import get_connection
 from mundoanimalia_todb import get_data, add_to_db
@@ -60,8 +63,9 @@ connection = get_connection()
 parameters = get_data(connection)
 
 cursor = connection.cursor()
-for animal in get_specimen_dict().values():
-    add_to_db(cursor, parameters, animal)
+specimens, locations = get_mundoanimalia_data()
+for animal in specimens.values():
+    add_to_db(cursor, parameters, animal, locations)
 
 cursor.close()
 connection.commit()

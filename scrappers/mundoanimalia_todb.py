@@ -30,14 +30,51 @@ def get_data(con):
     cursor.close()
     return (origin_id, location_id)
 
-def add_to_db(cursor, params, specimen):
+def add_location(cursor, location):
     fields = []
     values = []
     parameters = []
 
-    fields += ['origin_id', 'location_id']
-    values += ['%s', '%s']
-    parameters += list(params)
+    for i in location:
+        if i == 'province':
+            try:
+                prov_id = int(location[i])
+                fields.append('province_id')
+                values.append('%s')
+                parameters.append(prov_id)
+            except ValueError:
+                fields.append('province_id')
+                values.append('(SELECT id FROM provinces WHERE name LIKE %s)')
+                parameters.append(location[i])
+        else:
+            fields.append(i)
+            values.append('%s')
+            parameters.append(location[i])
+
+    vquery = ', '.join(values)
+    fquery = ', '.join(fields)
+    query = 'INSERT INTO locations (%s) VALUES (%s)' % (fquery, vquery)
+    cursor.execute(query, parameters)
+    cursor.execute("SELECT LAST_INSERT_ID()");
+    return cursor.fetchone()[0]
+
+def get_location_id(cursor, locations, url):
+    cursor.execute('SELECT id FROM locations WHERE url = %s', [url])
+    result = cursor.fetchone()
+    if result:
+        return result[0]
+    else:
+        location = list(filter(lambda x: x['url']==url, locations.values()))[0]
+        return add_location(cursor, location)
+
+def add_to_db(cursor, params, specimen, locations):
+    fields = []
+    values = []
+    parameters = []
+
+    fields += ['origin_id']
+    values += ['%s']
+    parameters += [params[0]]
 
     fields.append('origin_identification')
     values.append('%s')
@@ -55,6 +92,10 @@ def add_to_db(cursor, params, specimen):
                 fields.append(i)
                 values.append('%s')
                 parameters.append(specimen[i][0])
+        elif i == 'location_url':
+            fields.append('location_id')
+            values.append('%s')
+            parameters.append(get_location_id(cursor, locations, specimen[i]))
         else:
             fields.append(i)
             values.append('%s')

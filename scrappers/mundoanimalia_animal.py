@@ -25,7 +25,6 @@ except ImportError:
     from urllib2 import urlopen
 from utils import find_disc_value, txt_to_date, clTxt
 
-
 races = [{'Siam%es': [('gat', 'siam')],
           'Persa': [('gat' ,'pers')],
           'Pastor alem%an': [('pastor', 'aleman')],
