@@ -46,7 +46,9 @@ def get_specimen_dict(page_num = 1, cont_pages = 10):
     links = get_specimen_links(page_num, cont_pages)
     res = {}
     for i in links:
-        data = get_specimen_data(i)
+        page_contents = urlopen(i).read()
+        soup = BeautifulSoup(page_contents, 'html.parser')
+        data = get_specimen_data(soup, i)
         res[data['origin_internal_id']] = data
     return res
 

@@ -46,9 +46,7 @@ sexes = [{'male': [('gato ',), ('perro ',), ('macho',), ('cachorro',)],
 
 image_url_base = 'http://www.mundoanimalia.com/'
 
-def get_specimen_data(url):
-    main_page_contents = urlopen(url).read()
-    soup = BeautifulSoup(main_page_contents, 'html.parser')
+def get_specimen_data(soup, url):
     data = {}
 
     cabecera_links = soup.find('div', class_='cabecera').findAll('a')
